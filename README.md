@@ -1,14 +1,14 @@
-# flisochar_wf
-A new web-deployed workflow of FLISOCHAR that supports both ONT and PacBio long reads
+# flisochar_ontlr
+A new web-deployed workflow of FLISOCHAR that only supports ONT long reads.
 
 [FLISOCHAR](https://github.com/BPHL-Molecular/flisochar) is a Florida BPHL Pipeline to genomically characterize bacterial isolates using a hybrid assembly method.
 
 
 # Introduction
 
-Flisochar owes its inspiration to FLAQ-AMR, the Florida BPHL's standard pipeline for taxonomic characterization and AMR detection.
+The pipeline flisochar_ontlr has the same functionality as [flisochar_wf](https://github.com/BPHL-Molecular/flisochar_wf), but flisochar_ontlr only processes ONT long reads.
 
-The Flisochar's overaching goal is to improve the identification of bacterial isolates using hybrid assembly from short and long-read sequencing data. Short-read and long-read sequences can be respectively from the Illumina MiSeq system and the Oxford Nanopore or Pacific BioSciences SMRT HiFi Technologies.
+Flisochar-ontlr mainly aims to perform specifies identification of bacterial isolates using de novo assembly methods from Oxford Nanopore techonologies's long-read sequencing data.
 The pipeline is built in Nextflow, and Python is used to develop custom scripts, enabling the parse of output. It comes with singularity container to simplify installation.
 
 # Workflow
@@ -52,8 +52,8 @@ simply to save everything on your HPC cluster. Note the slash at the end of the 
 
 # Resource Requirements
 
-Before running flisochar, ensure that required computing resources are available.
-Cores: 28, Memory: 200gb, Time ~ 2:00 hrs for one hybrid (short-read, long-read) bacterial sample
+Before running flisochar_ontlr, ensure that required computing resources are available.
+Cores: 28, Memory: 180gb, Time ~ 2:00 hrs for one (long-read) bacterial sample
 
 # Running Flisochar
 
@@ -70,27 +70,27 @@ The above two commands and resources may also be written in a job scheduler (sba
 ## General Usage
 
 ```
-nextflow run flisochar_wf.nf --lr_type <pcb or ont> --lreads '*.fastq.gz' --sreads '*_{1,2}.fastq.gz' --asb_tool <canu or unicycler or dragonflye > --genomeSize <numberm or numberM> --outdir 'output path'
+nextflow run flisochar_ontlr.nf --lreads '*.fastq.gz' --asb_tool <canu or unicycler or dragonflye > --genomeSize <numberm or numberM> --outdir 'output path'
 
 ```
 The full usage may be accessed by executing the following command:
 
 ```
-nextflow flisochar_wf.nf --help
+nextflow flisochar_ontlr.nf --help
 ```
 
 ### Example
 Run the pipeline on the test dataset in your working directory using the following command:
 
 ```
-nextflow run flisochar_wf.nf --lr_type pcb --lreads 'LRdata/*.fastq.gz' --sreads 'SRdata/*_{1,2}.fastq.gz' --asb_tool canu --genomeSize 3.5m --outdir flisochar_test01
+nextflow run flisochar_ontlr.nf --lreads 'LRdata/*.fastq.gz' --asb_tool canu --genomeSize 3.5m --outdir flisochar_ontonlytest01
 ```
 #### Running with ONT data
 You may find ONT reads data from the [flisochar](https://github.com/BPHL-Molecular/flisochar) page.
 ### Maxikraken2 Database
 The flisochar_wf.nf worflow supports the maxikraken2 database if you want to use it to maximize Kraken percentages. However, users outside of the cluster HPG need to download maxikraken2 database from [here](https://lomanlab.github.io/mockcommunity/mc_databases.html). You will provide the path(where you downloaded the DB) and the name within the path (--kradb "/YOUR_PATH/kraken_databases"  --krdbName "maxikraken2_1903_140GB" ) when use the maxikraken2 database.
 
-### Flisochar_wf Ouput
+### Flisochar_ontlr Ouput
 Flisochar_wf ouputs seven directories refecting the worklow's features.
 (1) amrfinder,(2) ani_out, (3) annotation, (4) assemblies, (5) quality_control, (6) quast_out, and (7) species-identification
 
